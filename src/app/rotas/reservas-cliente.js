@@ -2,6 +2,7 @@ const authMiddleware = require("../../middlewares/auth");
 const Reserva = require("../models/reserva-client");
 const Servicos = require("../models/servico-empresa");
 const mongoose = require("../../config/database");
+const Servico = require("../models/servico-empresa");
 
 module.exports = (app) => {
   // Autenticação com token obrigatória
@@ -83,40 +84,45 @@ module.exports = (app) => {
   app.post("/reserva", async (req, res) => {
     let { numero_pessoas } = req.body;
     let { servico } = req.body;
-    servicoId = mongoose.Types.ObjectId(servico);
+    let resultServico;
+    await Servico.find({
+      _id: servico,
+    }).then((result) =>
+      result.map((item) => {
+        resultServico = item;
+      })
+    );
     try {
       //Verifica se a quantidades de pessoas excede a capacidade de atendimento
-      Reserva.findById(servicoId).then((resultado) => {
-        console.log(resultado);
+      Reserva.find({ servico }).then((resultado) => {
         if (
-          resultado.total_reservas + numero_pessoas >
-          capacidade_atendimento
+          resultServico.total_reservas + numero_pessoas >
+          resultServico.capacidade_atendimento
         ) {
           return res.status(204).json({
             message: "O número de pessoas excede capacidade máxima.",
           });
+        } else {
+          Reserva.create({ ...req.body, usuario: req.userId }).then(
+            async (retorno) => {
+              await Servicos.findByIdAndUpdate(
+                retorno.servico,
+                {
+                  $inc: {
+                    total_reservas: parseInt(numero_pessoas),
+                  },
+                },
+                { new: true }
+              );
+
+              return res.status(200).json(retorno);
+            }
+          );
         }
       });
 
       // Cria uma reserva com o userId passada na requisição
-      await Reserva.create({ ...req.body, usuario: req.userId }).then(
-        async (retorno) => {
-          await Servicos.findByIdAndUpdate(
-            retorno.servico,
-            {
-              $inc: {
-                total_reservas: parseInt(quantidade_pessoas),
-              },
-            },
-
-            { new: true }
-          );
-
-          return res.status(200).json(retorno);
-        }
-      );
     } catch (err) {
-      console.log(err);
       return res
         .status(512)
         .json({ error: "Falha ao tentar realizar a reserva." });
