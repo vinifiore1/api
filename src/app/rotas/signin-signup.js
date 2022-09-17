@@ -56,16 +56,12 @@ module.exports = (app) => {
 
     // Verifica se o email passado foi cadastrado
     if (!usuario) {
-      return res
-        .status(512)
-        .json({ error: "CPF e/ou senha inválidos", usuario, senha });
+      return res.status(512).json({ error: "CPF e/ou senha inválidos" });
     }
 
     //Verica se a senha passada é a mesma do usuário encontrado
     if (!(await bcrypt.compare(senha, usuario.senha))) {
-      return res
-        .status(512)
-        .json({ error: "CPF e/ou senha inválidos", usuario, senha });
+      return res.status(512).json({ error: "CPF e/ou senha inválidos" });
     }
 
     //Omissão do campo senha
