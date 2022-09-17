@@ -76,7 +76,7 @@ module.exports = (app) => {
   });
 
   //Autenticação de clientes
-  app.post("/autenticacao-empresa", async (req, res) => {
+  app.post("/autenticacao-funcionario", async (req, res) => {
     const { email, senha } = req.body;
     const usuario = await Funcionario.findOne({ email }).select("+senha");
 
