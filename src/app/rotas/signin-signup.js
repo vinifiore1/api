@@ -9,10 +9,9 @@ module.exports = (app) => {
   //Cadastro como usuário
   app.post("/registro-cliente", async (req, res) => {
     const { cpf } = req.body;
-
     //Verifica duplicidade de email
     if (await Client.findOne({ cpf }))
-      return res.status(400).json({ error: "Email já cadastrado" });
+      return res.status(400).json({ error: "Cpf já cadastrado" });
 
     try {
       // Insere usuário n banco
@@ -24,7 +23,7 @@ module.exports = (app) => {
     } catch (err) {
       return res
         .status(512)
-        .json({ error: "Falha ao tentar realizar o cadastro" });
+        .json({ error: "Falha ao tentar realizar o cadastro", err });
     }
   });
 
@@ -59,14 +58,14 @@ module.exports = (app) => {
     if (!usuario) {
       return res
         .status(512)
-        .json({ error: "Usuário e/ou senha inválidos", usuario, senha });
+        .json({ error: "CPF e/ou senha inválidos", usuario, senha });
     }
 
     //Verica se a senha passada é a mesma do usuário encontrado
     if (!(await bcrypt.compare(senha, usuario.senha))) {
       return res
         .status(512)
-        .json({ error: "Usuário e/ou senha inválidos", usuario, senha });
+        .json({ error: "CPF e/ou senha inválidos", usuario, senha });
     }
 
     //Omissão do campo senha
