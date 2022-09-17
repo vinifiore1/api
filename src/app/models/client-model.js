@@ -20,6 +20,10 @@ const clienteSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  dataNascimento: {
+    type: String,
+    required: true,
+  },
   senha: {
     type: String,
     required: true,
