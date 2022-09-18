@@ -16,7 +16,6 @@ module.exports = (app) => {
     try {
       // Insere usuário n banco
       await Client.create(req.body).then((retorno) => {
-        //Omissão de senha no retorno
         retorno.senha = undefined;
         return res.json(retorno);
       });
@@ -97,5 +96,30 @@ module.exports = (app) => {
     });
 
     res.status(200).json({ usuario: usuario, token: token });
+  });
+
+  app.post("/esqueci-senha", async (req, res) => {
+    const { cpf, senha } = req.body;
+    const usuario = await Client.findOne({ cpf }).select("+senha");
+
+    // Verifica se o email passado foi cadastrado
+    if (!usuario) {
+      return res.status(512).json({ error: "CPF inválido" });
+    }
+
+    const filter = { cpf };
+    const password = { senha: await bcrypt.hash(senha, 10) };
+
+    try {
+      // Insere usuário n banco
+      await Client.findOneAndUpdate(filter, password).then((retorno) => {
+        retorno.senha = undefined;
+        return res.json(retorno);
+      });
+    } catch (err) {
+      return res
+        .status(512)
+        .json({ error: "Falha ao tentar realizar alteração de senha", err });
+    }
   });
 };
