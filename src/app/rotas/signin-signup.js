@@ -16,6 +16,7 @@ module.exports = (app) => {
     try {
       // Insere usuário n banco
       await Client.create(req.body).then((retorno) => {
+        retorno.role = ["ROLE_CLIENT"];
         retorno.senha = undefined;
         return res.json(retorno);
       });
@@ -38,6 +39,7 @@ module.exports = (app) => {
 
     try {
       await Funcionario.create(req.body).then((retorno) => {
+        retorno.role = ["ROLE_ADMIN"];
         retorno.senha = undefined;
         return res.json(retorno);
       });
