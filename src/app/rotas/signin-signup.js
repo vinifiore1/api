@@ -16,7 +16,6 @@ module.exports = (app) => {
     try {
       // Insere usuário n banco
       await Client.create(req.body).then((retorno) => {
-        retorno.role = ["ROLE_CLIENT"];
         retorno.senha = undefined;
         return res.json(retorno);
       });
@@ -39,7 +38,6 @@ module.exports = (app) => {
 
     try {
       await Funcionario.create(req.body).then((retorno) => {
-        retorno.role = ["ROLE_ADMIN"];
         retorno.senha = undefined;
         return res.json(retorno);
       });
@@ -72,7 +70,9 @@ module.exports = (app) => {
       expiresIn: 86400,
     });
 
-    res.status(200).json({ usuario: usuario, token: token });
+    res
+      .status(200)
+      .json({ usuario: usuario, token: token, role: "ROLE_CLIENT" });
   });
 
   //Autenticação de clientes
@@ -97,7 +97,9 @@ module.exports = (app) => {
       expiresIn: 86400,
     });
 
-    res.status(200).json({ usuario: usuario, token: token });
+    res
+      .status(200)
+      .json({ usuario: usuario, token: token, role: "ROLE_ADMIN" });
   });
 
   app.post("/esqueci-senha", async (req, res) => {
