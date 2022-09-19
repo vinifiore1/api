@@ -1,5 +1,5 @@
 const Client = require("../models/client-model");
-const Funcionario = require("../models/empresa-model");
+const Funcionario = require("../models/funcionario-model");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -32,7 +32,7 @@ module.exports = (app) => {
 
     //Verifica duplicidade de email e cnpj
     if (await Funcionario.findOne({ cpf }))
-      return res.status(400).json({ error: "Email já cadastrado" });
+      return res.status(400).json({ error: "CPF já cadastrado" });
     else if (await Funcionario.findOne({ cnpj }))
       return res.status(400).json({ error: "CNPJ já cadastrado" });
 

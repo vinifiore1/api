@@ -6,22 +6,12 @@ const funcionarioSchema = new mongoose.Schema({
     type: Number,
     default: 2,
   },
-  razao_social: {
-    type: String,
-    uppercase: true,
-    required: true,
-  },
-  responsavel: {
-    type: String,
-    uppercase: true,
-    required: true,
-  },
   email: {
     type: String,
     unique: true,
     required: true,
   },
-  cnpj: {
+  cpf: {
     type: String,
     unique: true,
     required: true,
