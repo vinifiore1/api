@@ -96,16 +96,6 @@ module.exports = (app) => {
       Reserva.find({ servico }).then((resultado) => {
         Reserva.create({ ...req.body, usuario: req.userId }).then(
           async (retorno) => {
-            await Servicos.findByIdAndUpdate(
-              retorno.servico,
-              {
-                $inc: {
-                  total_reservas: parseInt(numero_pessoas),
-                },
-              },
-              { new: true }
-            );
-
             return res.status(200).json(retorno);
           }
         );
