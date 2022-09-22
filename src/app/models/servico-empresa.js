@@ -15,7 +15,7 @@ const servicoFuncionarioSchema = new mongoose.Schema({
     required: true,
   },
   photo: {
-    type: File | String,
+    type: String,
   },
   dados: Object,
   created_at: Date,
