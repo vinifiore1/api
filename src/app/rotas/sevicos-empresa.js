@@ -4,7 +4,7 @@ const Servico = require("../models/servico-empresa");
 module.exports = (app) => {
   app.use(authMiddleware);
 
-  //Criaçaão de novo serviço
+  //Criação de novo serviço
   app.post("/servico", async (req, res) => {
     try {
       await Servico.create(req.body).then((retorno) => {
@@ -16,6 +16,7 @@ module.exports = (app) => {
         .json({ error: "Falha ao tentar criar novo serviço " });
     }
   });
+
   app.get("/servico", async (req, res) => {
     try {
       await Servico.find().then((result) => {
@@ -25,6 +26,7 @@ module.exports = (app) => {
       return res.status(512).json({ error: err });
     }
   });
+
   app.get("/servico/find", async (req, res) => {
     let _id = req.headers.id;
     try {

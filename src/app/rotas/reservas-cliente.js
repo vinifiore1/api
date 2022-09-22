@@ -93,32 +93,22 @@ module.exports = (app) => {
       })
     );
     try {
-      //Verifica se a quantidades de pessoas excede a capacidade de atendimento
       Reserva.find({ servico }).then((resultado) => {
-        if (
-          resultServico.total_reservas + numero_pessoas >
-          resultServico.capacidade_atendimento
-        ) {
-          return res.status(204).json({
-            message: "O número de pessoas excede capacidade máxima.",
-          });
-        } else {
-          Reserva.create({ ...req.body, usuario: req.userId }).then(
-            async (retorno) => {
-              await Servicos.findByIdAndUpdate(
-                retorno.servico,
-                {
-                  $inc: {
-                    total_reservas: parseInt(numero_pessoas),
-                  },
+        Reserva.create({ ...req.body, usuario: req.userId }).then(
+          async (retorno) => {
+            await Servicos.findByIdAndUpdate(
+              retorno.servico,
+              {
+                $inc: {
+                  total_reservas: parseInt(numero_pessoas),
                 },
-                { new: true }
-              );
+              },
+              { new: true }
+            );
 
-              return res.status(200).json(retorno);
-            }
-          );
-        }
+            return res.status(200).json(retorno);
+          }
+        );
       });
 
       // Cria uma reserva com o userId passada na requisição
