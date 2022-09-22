@@ -10,10 +10,6 @@ const servicoFuncionarioSchema = new mongoose.Schema({
     ref: "Funcionario",
     required: true,
   },
-  total_reservas: {
-    type: Number,
-    default: 0,
-  },
   price: {
     type: Number,
     required: true,
