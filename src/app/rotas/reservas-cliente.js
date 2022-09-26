@@ -80,26 +80,6 @@ module.exports = (app) => {
       );
   });
 
-  //Localizar uma nova reserva
-  app.post("/reserva", async (req, res) => {
-    let { servico } = req.body;
-
-    await Servico.find({
-      _id: servico,
-    }).then((result) =>
-      result.map((item) => {
-        resultServico = item;
-      })
-    );
-    try {
-      Reserva.find({ servico }).then((resultado) => {
-        return res.status(200).json(resultado);
-      });
-    } catch (err) {
-      return res.status(512).json({ error: "Nenhuma reserva foi feita." });
-    }
-  });
-
   //Cria uma nova reserva
   app.post("/reserva", async (req, res) => {
     let { servico } = req.body;
