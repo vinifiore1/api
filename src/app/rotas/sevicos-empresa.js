@@ -1,5 +1,6 @@
 const authMiddleware = require("../../middlewares/auth");
 const Servico = require("../models/servico-empresa");
+const Funcionario = require("../models/funcionario-model");
 
 module.exports = (app) => {
   app.use(authMiddleware);
@@ -31,6 +32,17 @@ module.exports = (app) => {
     let _id = req.headers.id;
     try {
       await Servico.findById({ _id }).then((result) => {
+        return res.status(200).json(result);
+      });
+    } catch (err) {
+      return res.status(512).json({ error: err });
+    }
+  });
+
+  app.get("/funcionario", async (req, res) => {
+    const { _id } = req.body;
+    try {
+      await Funcionario.findById({ _id }).then((result) => {
         return res.status(200).json(result);
       });
     } catch (err) {
