@@ -91,6 +91,7 @@ module.exports = (app) => {
         resultServico = item;
       })
     );
+
     try {
       Reserva.find({ servico }).then((resultado) => {
         Reserva.create({ ...req.body, usuario: req.userId }).then(
