@@ -16,10 +16,6 @@ const reservaClienteSchema = new Schema({
     ref: "Funcionario",
     required: true,
   },
-  numero_pessoas: {
-    type: Number,
-    required: true,
-  },
   servico: {
     type: Schema.Types.ObjectId,
     ref: "Servico",
