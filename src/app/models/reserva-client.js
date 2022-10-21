@@ -27,7 +27,7 @@ const reservaClienteSchema = new Schema({
     required: true,
   },
   data_servico: {
-    type: Date,
+    type: String,
     required: true,
   },
   hora_servico: {
