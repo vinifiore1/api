@@ -54,10 +54,15 @@ module.exports = (app) => {
 
   //Retorna todos os agendamentos abertos na empresa
   app.get("/reservas-abertas/empresa", async (req, res) => {
-    Reserva.find({ funcionario: req.userId, $and: [{ status: "ABERTO" }] })
+    console.log(req.headers.userid);
+    Reserva.find({
+      funcionario: req.headers.userid,
+      $and: [{ status: "ABERTO" }],
+    })
       .populate(["funcionario", "usuario"])
       .then(
         (retorno) => {
+          console.log(retorno);
           res.status(200).json(retorno);
         },
         (erro) => {
