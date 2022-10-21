@@ -52,7 +52,7 @@ module.exports = (app) => {
       );
   });
 
-  //Retorna todos os agendamentos abertos na enpresa
+  //Retorna todos os agendamentos abertos na empresa
   app.get("/reservas-abertas/empresa", async (req, res) => {
     Reserva.find({ funcionario: req.userId, $and: [{ status: "ABERTO" }] })
       .populate(["funcionario", "usuario"])
