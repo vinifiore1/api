@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 const rotasCadAuth = require("../app/rotas/signin-signup");
 const servicoEmpresa = require("../app/rotas/sevicos-empresa");
 const reservaCliente = require("../app/rotas/reservas-cliente");
+const funcionario = require("../app/rotas/funcionario");
 
 //Rptas de cadastro e autenticação cliente/empresa
 rotasCadAuth(app);
@@ -29,5 +30,8 @@ reservaCliente(app);
 
 //Rotas referente a empresa
 servicoEmpresa(app);
+
+//rotas funcionario
+funcionario(app);
 
 module.exports = app;
