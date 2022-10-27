@@ -22,12 +22,12 @@ module.exports = (app) => {
   });
 
   app.get("/funcionario", async (req, res) => {
-    Funcionario.findAll()
-      .then((retorno) => {
-        return res.status(200).json(retorno);
-      })
-      .catch((erro) => {
-        res.status(512).json({ error: erro });
+    try {
+      await Funcionario.find().then((result) => {
+        return res.status(200).json(result);
       });
+    } catch (err) {
+      return res.status(512).json({ error: err });
+    }
   });
 };
