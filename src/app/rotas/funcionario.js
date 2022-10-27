@@ -20,4 +20,14 @@ module.exports = (app) => {
         res.status(512).json({ error: erro });
       });
   });
+
+  app.get("/funcionario", async (req, res) => {
+    Funcionario.findAll()
+      .then((retorno) => {
+        return res.status(200).json(retorno);
+      })
+      .catch((erro) => {
+        res.status(512).json({ error: erro });
+      });
+  });
 };

@@ -6,6 +6,10 @@ const funcionarioSchema = new mongoose.Schema({
     type: Number,
     default: 2,
   },
+  nome: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     unique: true,

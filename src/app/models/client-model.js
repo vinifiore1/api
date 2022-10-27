@@ -8,7 +8,6 @@ const clienteSchema = new mongoose.Schema({
   },
   nome: {
     type: String,
-    uppercase: true,
     required: true,
   },
   cpf: {
